@@ -2,7 +2,8 @@
 <%@ page import="actions.ShowMenuAction" %>
 <%@ page import="java.util.Vector" %>
 <%@ page import="actions.MakeOrderAction" %>
-<%@ page import="actions.ShowPageMakeOrderAction" %><%--
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><%--
   Created by IntelliJ IDEA.
   User: Serug
   Date: 22.05.2017
@@ -10,7 +11,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html lang="en">
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="properties.text" />
+<!DOCTYPE html>
+<html lang="${language}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -55,16 +60,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Restaurant</a>
+            <a class="navbar-brand" href="index.jsp"><fmt:message key="index.restaurant" /></a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="TestServlet?action=SHOW_MENU">Menu</a></li>
-                <li class="active"><a href="TestServlet?action=MAKE_ORDER">Make order</a></li>
-                <li><a href="TestServlet?action=SHOW_ACCEPTED_ORDERS">Accepted orders</a></li>
-                <li><a href="TestServlet?action=SHOW_ORDERS_BY_CLIENT&client_id=1">Order</a></li>
-                <li><a href="TestServlet?action=LOG_OUT">Log out</a></li>
+                <li><a href="index.jsp"><fmt:message key="index.home" /></a></li>
+                <li><a href="TestServlet?action=SHOW_MENU"><fmt:message key="index.menu" /></a></li>
+                <li  class="active"><a href="TestServlet?action=MAKE_ORDER"><fmt:message key="index.make_order" /></a></li>
+                <li><a href="TestServlet?action=SHOW_ACCEPTED_ORDERS"><fmt:message key="index.accepted_orders" /></a></li>
+                <li><a href="TestServlet?action=SHOW_ORDERS_BY_CLIENT&client_id=1"><fmt:message key="index.order" /></a></li>
+                <li><a href="TestServlet?action=LOG_OUT"><fmt:message key="index.log_out" /></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -76,9 +81,9 @@
         <form id="bootstrapSelectForm" method="post" class="form-horizontal">
             <form action="TestServlet" >
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">Product</label>
+                    <label class="col-xs-3 control-label"><fmt:message key="make_order.product" /></label>
                     <div class="col-xs-5 selectContainer">
-                        <select name="colors" class="form-control" multiple title="Choose your dish">
+                        <select name="colors" class="form-control" multiple title="<fmt:message key="make_order.choose_your_dish" />">
                             <%
                                 Vector<Dish> dishes = (Vector<Dish>) session.getAttribute(MakeOrderAction.MENU_PARAM);
                                 for (Dish dish : dishes) {
@@ -94,7 +99,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">Amount</label>
+                    <label class="col-xs-3 control-label"><fmt:message key="make_order.amount" /></label>
                     <div class="col-xs-5 selectContainer">
                         <input type="text" class="form-control" placeholder="1" aria-describedby="basic-addon1">
                     </div>
@@ -102,7 +107,7 @@
 
                 <div class="form-group">
                     <div class="col-xs-5 col-xs-offset-3">
-                        <button type="submit" name="action" value="MAKE_ORDER" class="btn btn-default">Order</button>
+                        <button type="submit" name="action" value="MAKE_ORDER" class="btn btn-default"><fmt:message key="make_order.order" /></button>
                     </div>
                 </div>
             </form>

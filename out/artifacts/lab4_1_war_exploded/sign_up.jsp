@@ -1,4 +1,7 @@
-<%@ page import="actions.*" %><%--
+<%@ page import="actions.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--
   Created by IntelliJ IDEA.
   User: Serug
   Date: 21.05.2017
@@ -6,7 +9,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html lang="en">
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="properties.text" />
+<!DOCTYPE html>
+<html lang="${language}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -44,7 +51,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.jsp">Restaurant</a>
+            <a class="navbar-brand" href="index.jsp"><fmt:message key="index.restaurant" /></a>
         </div>
     </div>
 </div>
@@ -65,14 +72,14 @@
             %>
             <form action="TestServlet">
                 <input type="hidden" name="action" value="SIGN_UP"/>
-                <p>Input login:
+                <p><fmt:message key="auth.input_login" />:
                     <input name="login"/>
-                <p>Input password:
+                <p><fmt:message key="auth.input_password" />:
                     <input type="password" name="password"/>
                 <P>
-                    <input type="reset" value="Reset">     <input type="submit" value="Register">
+                    <input type="reset" value="<fmt:message key="auth.reset_text" />">     <input type="submit" value="<fmt:message key="auth.register_text" />">
             </form>
-            <a href="sign_in.jsp">Login</a>
+            <a href="sign_in.jsp"><fmt:message key="auth.login_text" /></a>
         </div>
     </div>
 </div>

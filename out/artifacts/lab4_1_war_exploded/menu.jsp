@@ -6,7 +6,10 @@
 <%@ page import="action.Action" %>
 <%@ page import="entities.Dish" %>
 <%@ page import="actions.ShowMenuAction" %>
-<%@ page import="actions.EditMenuAction" %><%--
+<%@ page import="actions.EditMenuAction" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--
   Created by IntelliJ IDEA.
   User: Serug
   Date: 21.05.2017
@@ -14,7 +17,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html lang="en">
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="properties.text" />
+<!DOCTYPE html>
+<html lang="${language}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -52,16 +59,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <%--<jsp:include page="body.jsp" flush="true"/>--%>
+            <a class="navbar-brand" href="index.jsp"><fmt:message key="index.restaurant" /></a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="index.jsp">Home</a></li>
-                <li class="active"><a href="TestServlet?action=SHOW_MENU">Menu</a></li>
-                <li><a href="TestServlet?action=MAKE_ORDER">Make order</a></li>
-                <li><a href="TestServlet?action=SHOW_ACCEPTED_ORDERS">Accepted orders</a></li>
-                <li><a href="TestServlet?action=SHOW_ORDERS_BY_CLIENT&client_id=1">Order</a></li>
-                <li><a href="TestServlet?action=LOG_OUT">Log out</a></li>
+                <li><a href="index.jsp"><fmt:message key="index.home" /></a></li>
+                <li class="active"><a href="TestServlet?action=SHOW_MENU"><fmt:message key="index.menu" /></a></li>
+                <li><a href="TestServlet?action=MAKE_ORDER"><fmt:message key="index.make_order" /></a></li>
+                <li><a href="TestServlet?action=SHOW_ACCEPTED_ORDERS"><fmt:message key="index.accepted_orders" /></a></li>
+                <li><a href="TestServlet?action=SHOW_ORDERS_BY_CLIENT&client_id=1"><fmt:message key="index.order" /></a></li>
+                <li><a href="TestServlet?action=LOG_OUT"><fmt:message key="index.log_out" /></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -73,16 +80,16 @@
 
         <form id="bootstrapSelectForm" method="post" class="form-horizontal">
             <div class="container">
-                <h2>Info about menu</h2>
+                <h2><fmt:message key="menu.info" /></h2>
                 <table class="table table-bordered">
                     <thead>
                     <% boolean isAdmin = (Boolean) session.getAttribute(ShowMenuAction.IS_ADMIN_PARAM); %>
                     <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Cost</th>
+                        <th><fmt:message key="menu.id" /></th>
+                        <th><fmt:message key="menu.name" /></th>
+                        <th><fmt:message key="menu.cost" /></th>
                         <% if (isAdmin) { %>
-                        <th>Edit</th>
+                        <th><fmt:message key="menu.edit" /></th>
                         <% } %>
                     </tr>
                     </thead>
@@ -101,7 +108,7 @@
                         <% if (isAdmin) { %>
                         <td>
                             <a href="TestServlet?action=EDIT_MENU&<%= EditMenuAction.DISH_ID_PARAM%>=<%= dish.getId()%>"
-                               name="Edit">Edit</a>
+                               name="Edit"><fmt:message key="menu.edit" /></a>
                         </td>
                         <% } %>
                     </tr>

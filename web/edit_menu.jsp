@@ -3,7 +3,10 @@
 <%@ page import="entities.Order" %>
 <%@ page import="action.Action" %>
 <%@ page import="entities.Dish" %>
-<%@ page import="actions.*" %><%--
+<%@ page import="actions.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--
   Created by IntelliJ IDEA.
   User: Serug
   Date: 21.05.2017
@@ -11,7 +14,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html lang="en">
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="properties.text" />
+<!DOCTYPE html>
+<html lang="${language}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -49,15 +56,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <%--<jsp:include page="body.jsp" flush="true"/>--%>
+            <a class="navbar-brand" href="index.jsp"><fmt:message key="index.restaurant" /></a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="TestServlet?action=SHOW_MENU">Menu</a></li>
-                <li><a href="TestServlet?action=MAKE_ORDER">Make order</a></li>
-                <li class="active"><a href="TestServlet?action=SHOW_ACCEPTED_ORDERS">Accepted orders</a></li>
-                <li><a href="TestServlet?action=SHOW_ORDERS_BY_CLIENT&client_id=1">Order</a></li>
+                <li><a href="index.jsp"><fmt:message key="index.home" /></a></li>
+                <li class="active"><a href="TestServlet?action=SHOW_MENU"><fmt:message key="index.menu" /></a></li>
+                <li><a href="TestServlet?action=MAKE_ORDER"><fmt:message key="index.make_order" /></a></li>
+                <li><a href="TestServlet?action=SHOW_ACCEPTED_ORDERS"><fmt:message key="index.accepted_orders" /></a></li>
+                <li><a href="TestServlet?action=SHOW_ORDERS_BY_CLIENT&client_id=1"><fmt:message key="index.order" /></a></li>
+                <li><a href="TestServlet?action=LOG_OUT"><fmt:message key="index.log_out" /></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -68,19 +76,19 @@
     <div class="starter-template">
 
         <div class="container">
-            <h2>Change dish</h2>
+            <h2><fmt:message key="edit_menu.change_dish" /></h2>
             <%
                 String name = (String) session.getAttribute(EditMenuAction.DISH_NAME_PARAM);
                 String cost = String.valueOf(session.getAttribute(EditMenuAction.DISH_COST_PARAM));
             %>
             <form action="TestServlet">
                 <input type="hidden" name="action" value="UPDATE_MENU_ITEM"/>
-                <p>Name:
+                <p><fmt:message key="menu.name" />:
                     <input name="<%= EditMenuAction.DISH_NAME_PARAM%>" value="<%=name%>"/>
-                <p>Cost:
+                <p><fmt:message key="menu.cost" />:
                     <input name="<%= EditMenuAction.DISH_COST_PARAM%>" value="<%=cost%>"/>
                 <P>
-                  <input type="submit" value="Save">
+                  <input type="submit" value="<fmt:message key="edit_menu.save" />">
             </form>
         </div>
     </div>
